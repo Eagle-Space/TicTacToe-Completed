@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TicTacToe</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container" id="main">
+      <span id="turn">Play</span>
+      <div class="box" id="box1"></div>
+      <div class="box" id="box2"></div>
+      <div class="box" id="box3"></div>
+      <div class="box" id="box4"></div>
+      <div class="box" id="box5"></div>
+      <div class="box" id="box6"></div>
+      <div class="box" id="box7"></div>
+      <div class="box" id="box8"></div>
+      <div class="box" id="box9"></div>
+    </div>
+    <button onclick="replay()">Play Again</button>
+
+    <script>
+      const boxes = document.querySelectorAll(".box");
+      const turnDisplay = document.querySelector("#turn");
+
+      let X_or_O = 0;
+
+      let scoreX = 0;
+      let scoreO = 0;
+
+      for (var i = 0; i < boxes.length; i++) {
+        boxes[i].onclick = function () {
+          if (this.innerHTML !== "X" && this.innerHTML !== "O") {
+            if (X_or_O % 2 === 0) {
+              this.innerHTML = "X";
+              turnDisplay.innerHTML = "O Turn Now";
+              X_or_O += 1;
+            } else {
+              this.innerHTML = "O";
+              turnDisplay.innerHTML = "X Turn Now";
+              X_or_O += 1;
+            }
+            if (checkForWinner() === "X") {
+              alert("Player X wins!");
+              scoreX += 1;
+              resetGame();
+            } else if (checkForWinner() === "O") {
+              alert("Player O wins!");
+              scoreO += 1;
+              resetGame();
+            } else if (checkForTie()) {
+              alert("Tie game!");
+              resetGame();
+            }
+          }
+        };
+      }
+
+      function checkForWinner() {
+        if (
+          boxes[0].innerHTML !== "" &&
+          boxes[0].innerHTML === boxes[1].innerHTML &&
+          boxes[1].innerHTML === boxes[2].innerHTML
+        ) {
+          return boxes[0].innerHTML;
+        }
+        if (
+          boxes[3].innerHTML !== "" &&
+          boxes[3].innerHTML === boxes[4].innerHTML &&
+          boxes[4].innerHTML === boxes[5].innerHTML
+        ) {
+          return boxes[3].innerHTML;
+        }
+        if (
+          boxes[6].innerHTML !== "" &&
+          boxes[6].innerHTML === boxes[7].innerHTML &&
+          boxes[7].innerHTML === boxes[8].innerHTML
+        ) {
+          return boxes[6].innerHTML;
+        }
+        if (
+          boxes[0].innerHTML !== "" &&
+          boxes[0].innerHTML === boxes[3].innerHTML &&
+          boxes[3].innerHTML === boxes[6].innerHTML
+        ) {
+          return boxes[0].innerHTML;
+        }
+        if (
+          boxes[1].innerHTML !== "" &&
+          boxes[1].innerHTML === boxes[4].innerHTML &&
+          boxes[4].innerHTML === boxes[7].innerHTML
+        ) {
+          return boxes[1].innerHTML;
+        }
+        if (
+          boxes[2].innerHTML !== "" &&
+          boxes[2].innerHTML === boxes[5].innerHTML &&
+          boxes[5].innerHTML === boxes[8].innerHTML
+        ) {
+          return boxes[2].innerHTML;
+        }
+        // Check diagonals for a winner
+        if (
+          boxes[0].innerHTML !== "" &&
+          boxes[0].innerHTML === boxes[4].innerHTML &&
+          boxes[4].innerHTML === boxes[8].innerHTML
+        ) {
+          return boxes[0].innerHTML;
+        }
+        if (
+          boxes[2].innerHTML !== "" &&
+          boxes[2].innerHTML === boxes[4].innerHTML &&
+          boxes[4].innerHTML === boxes[6].innerHTML
+        ) {
+          return boxes[2].innerHTML;
+        }
+        return null;
+      }
+
+      function checkForTie() {
+        for (var i = 0; i < boxes.length; i++) {
+          if (boxes[i].innerHTML === "") {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function resetGame() {
+        for (var i = 0; i < boxes.length; i++) {
+          boxes[i].innerHTML = "";
+        }
+        X_or_O = 0;
+        turnDisplay.innerHTML = "Play";
+        updateScore();
+      }
+
+      function updateScore() {
+        const scoreXDisplay = document.querySelector("#scoreX");
+        const scoreODisplay = document.querySelector("#scoreO");
+        scoreXDisplay.innerHTML = "Player X: " + scoreX;
+        scoreODisplay.innerHTML = "Player O: " + scoreO;
+      }
+    </script>
+  </body>
+</html>
